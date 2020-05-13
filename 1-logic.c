@@ -2,9 +2,10 @@
 #include "monty.h"
 
 #define MALLOC_F "Error: malloc failed\n"
-#define EMPTYSTACK "%d: usage: push integer\n"
-#define MISSINGDATA "%d: usage: push integer\n"
-#define CANTADD "%d: can't add, stack too short\n"
+#define EMPTYSTACK "L%d: usage: push integer\n"
+#define MISSINGDATA "L%d: usage: push integer\n"
+#define CANTADD "L%d: can't add, stack too short\n"
+#define PINT_F "L%d: can't pint, stack empty\n"
 /**
  * pall_s - prints everything loaded onto the stack
  * @stack: doubly linked list
@@ -124,4 +125,41 @@ void add_s(stack_t **stack, unsigned int line_number)
 	lastnode = temp;
 	free(lastnode);
 	free(secondlastnode);
+}
+
+/**
+ * swap_s - swaps data between the first two nodes
+ * @stack: doubly linked list
+ * @line_number: contains the line number
+ * Return: Always Void
+ */
+void swap_s(stack_t **stack, unsigned int line_number)
+{
+	int firstnodedata, secondnodedata;
+	stack_t *temp = *stack;
+
+	/* While two nodes exist, swap the data */
+	if (temp && temp->next)
+	{
+		/* Pull the values from the two nodes */
+		firstnodedata = temp->n; secondnodedata = temp->next->n;
+		/* Then swap them */
+		temp->n = secondnodedata, temp->next->n = firstnodedata;
+	}
+	else
+		dprintf(2, "%d: can't swap, stack too short\n", line_number), exit(EXIT_FAILURE);
+}
+
+/**
+ * pint - prints the value of the head node
+ * @stack: doubly linked list
+ * @line_number: line number
+ * Return: Always void
+ */
+void pint_s(stack_t **stack, unsigned int line_number)
+{
+	if (*stack == NULL)
+		dprintf(2, PINT_F, line_number ), exit(EXIT_FAILURE);
+	else
+		dprintf(1, "%d\n", (*stack)->n);
 }

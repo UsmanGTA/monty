@@ -29,6 +29,8 @@ int main(int argc, char **argv)
 			{"pall", pall_s},
 			{"pop", pop_s},
 			{"add", add_s},
+			{"pint", pint_s},
+			{"swap", swap_s},
 			{ NULL, NULL },
 		};
 	if (argc != 2)
@@ -42,9 +44,12 @@ int main(int argc, char **argv)
 	/* EXECUTION LOOP BEGINS */
 	while (1)
 	{
-		bytes = getline(&buf, &bufSize, fp), buf[bytes -1] = '\0';
+		bytes = getline(&buf, &bufSize, fp);
+		if (bytes >= 0)
+			buf[bytes -1] = '\0';
+		else
+			break;
 
-		printf("Buf stored: %s\n", buf);
 		/* Generate argvs */	
 		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
 			args[index] = tokens, tokens = strtok(NULL, " ");
@@ -55,11 +60,14 @@ int main(int argc, char **argv)
 		{
 				/* Check if function exists in struct */
 				if(strcmp(CMD, opcodes[index].opcode) == 0)
-					printf("Executed %s\n", CMD), opcodes[index].f(&head, line_count), flag = 1;
+					opcodes[index].f(&head, line_count), flag = 1;
 
 				/* Check if push exists and data has been given */
 				else if (strcmp(CMD, "push") == 0)
-					push_s(&head, line_count, DATA); flag = 1;
+				{
+					push_s(&head, line_count, DATA), flag = 1;
+					break;
+				}
 		}
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
 			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
