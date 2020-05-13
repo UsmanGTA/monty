@@ -17,11 +17,11 @@ void pall_s(stack_t **stack, unsigned int line_number)
 	stack_t *temp; /** Temp pointer to move forward */
 
 	(void)line_number; /* Voiding since var not in use */
-		
+
 	if (stack == NULL || *stack == NULL)
 		dprintf(2, EMPTYSTACK, line_number);
 
-	for(temp = *stack; temp != NULL; temp = temp->next)
+	for (temp = *stack; temp != NULL; temp = temp->next)
 		printf("%d\n", temp->n);
 }
 
@@ -81,6 +81,7 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 void pop_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = *stack;
+
 	if (stack == NULL || *stack == NULL)
 	{
 		dprintf(1, "%d: can't pop an empty stack", line_number);
@@ -103,30 +104,36 @@ void pop_s(stack_t **stack, unsigned int line_number)
  */
 void add_s(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp, *secondlastnode, *lastnode;
+	stack_t *temp = *stack; /* *secondlastnode, *lastnode; */
 	int secondlast, last;
 	int total;
 	int nodecount;
 
-	for (temp = *stack, nodecount = 0; temp != NULL; temp = temp->next, nodecount++)
+	for (temp = *stack, nodecount = 0; temp != NULL;
+	     temp = temp->next, nodecount++)
 		;
-	
+
 	/* Check if we have two nodes to add */
-	if (nodecount < 1)
-		dprintf(2, CANTADD, line_number), exit(EXIT_FAILURE);
-
+	if (stack == NULL || *stack == NULL || nodecount < 2)
+	{
+		dprintf(2, CANTADD, line_number);
+		free(stack);
+		exit(EXIT_FAILURE);
+	}
 	/* Pull the values from the last two nodes, then add */
-	secondlast = temp->prev->n, last = temp->n;
+	secondlast = (*stack)->next->n, last = (*stack)->n;
 	total = secondlast + last;
+	temp = (*stack)->next;
+	      pop_s(stack, line_number);
+	      (*stack)->n = total;
 
-	dprintf(1, "%d\n", total);
+/*	dprintf(1, "%d\n", total); */
 
 	/* Free both of the added nodes */
-	temp->prev->prev->next = NULL; /* Disconnect the nodes */
-	secondlastnode = temp->prev;
-	lastnode = temp;
-	free(lastnode);
-	free(secondlastnode);
+/*	temp->prev->prev->next = NULL; Disconnect the nodes */
+/*	secondlastnode = temp->prev; */
+/*	lastnode = temp; */
+/*	free(secondlastnode); */
 }
 
 /**
@@ -144,16 +151,20 @@ void swap_s(stack_t **stack, unsigned int line_number)
 	if (temp && temp->next)
 	{
 		/* Pull the values from the two nodes */
-		firstnodedata = temp->n; secondnodedata = temp->next->n;
+		firstnodedata = temp->n;
+		secondnodedata = temp->next->n;
 		/* Then swap them */
 		temp->n = secondnodedata, temp->next->n = firstnodedata;
 	}
 	else
-		dprintf(2, "%d: can't swap, stack too short\n", line_number), exit(EXIT_FAILURE);
+	{
+		dprintf(2, "%d: can't swap, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
- * pint - prints the value of the head node
+ * pint_s - prints the value of the head node
  * @stack: doubly linked list
  * @line_number: line number
  * Return: Always void
@@ -161,7 +172,7 @@ void swap_s(stack_t **stack, unsigned int line_number)
 void pint_s(stack_t **stack, unsigned int line_number)
 {
 	if (*stack == NULL)
-		dprintf(2, PINT_F, line_number ), exit(EXIT_FAILURE);
+		dprintf(2, PINT_F, line_number), exit(EXIT_FAILURE);
 	else
 		dprintf(1, "%d\n", (*stack)->n);
 }
