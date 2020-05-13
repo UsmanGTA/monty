@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "monty.h"
 
+#define MALLOCF dprintf(1, "Error: malloc failed\n")
+
 /**
  * pall_s - prints everything loaded onto the stack
  * @stack: doubly linked list
@@ -14,7 +16,7 @@ void pall_s(stack_t **stack, unsigned int line_number)
 	(void)line_number; /* Voiding since var not in use */
 		
 	if (stack == NULL || *stack == NULL)
-		return NULL
+		printf("WOT IZ HEPPENING! on LINE %d\n", line_number);
 
 	for(temp = *stack; temp != NULL; temp = temp->next)
 		printf("%d\n", temp->n);
@@ -33,24 +35,24 @@ void push_s(stack_t **stack, unsigned int line_number, char *data)
 {
 	stack_t *temp = *stack; /* Stores the address of head */
 	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
+	int n = atoi(data);
 
-	/* Check if malloc failed */
+	/* Check if malloc failed | atoi failed  */
 	if (da_new_king == NULL)
-	{
-		free(da_new_king);
-		return (NULL);
-	}
+		MALLOCF, free(da_new_king), exit(EXIT_FAILURE);
+	if (n == 0)
+		dprintf(1, "L%d: usage: push integer", line_number), exit(EXIT_FAILURE);
 
 	/* Populating data into the new node */
-	da_new_king->n = atoi(data);
+	da_new_king->n = n;
 	da_new_king->prev = NULL;
 
 	/* If *head's empty, then set our newnode */
 	/* to be the head with prev and next == NULL */
-	if (*head == NULL)
+	if (*stack == NULL)
 	{
 		da_new_king->next = NULL; /* Terminate the linked list */
-		*head = da_new_king; /* Copy new node to *head */
+		*stack = da_new_king; /* Copy new node to *head */
 		return (*stack);
 	}
 
@@ -61,7 +63,7 @@ void push_s(stack_t **stack, unsigned int line_number, char *data)
 	{
 		da_new_king->next = temp; /* Else our new node should point to head */
 		temp->prev = da_new_king; /*Point the next node->prev to the new head node */
-		*head = da_new_king; /* Our new node is now the head */
+		*stack = da_new_king; /* Our new node is now the head */
 		return (*stack);
 	}
 }
@@ -78,12 +80,11 @@ void pop_s(stack_t **stack, unsigned int line_number)
 	stack_t *temp;
 	
 	if (stack == NULL || *stack == NULL)
-		return (NULL);
+		dprintf(1, "%d: can't pop an empty stack", line_number), exit(EXIT_FAILURE);
 
 	for (temp = *stack; temp != NULL; temp = temp->next)
-	{
 		;
-	}
+
 	temp->prev->next == NULL; /* Disconnect from the last node */
 	free(temp); /* Free the last node */
 }
@@ -97,15 +98,13 @@ void pop_s(stack_t **stack, unsigned int line_number)
  */
 void add_s(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp;
+	stack_t *temp, *secondlastnode, *lastnode;
 	int secondlast, last;
 	int total;
 	int nodecount;
 
 	for (temp = *stack, nodecount = 0; temp != NULL; temp = temp->next, nodecount++)
-	{
 		;
-	}
 	
 	/* Check if we have two nodes to add */
 	if (nodecount < 1)
@@ -115,7 +114,7 @@ void add_s(stack_t **stack, unsigned int line_number)
 	}
 
 	/* Pull the values from the last two nodes, then add */
-	secondlast = temp->prev->n, last = temp->n
+	secondlast = temp->prev->n, last = temp->n;
 	total = secondlast + last;
 
 	dprintf(1, "%d\n", total);
