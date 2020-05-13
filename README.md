@@ -4,7 +4,7 @@
 This project is a part of a Holberton Curriculum building upon previous concepts of stacks, queues and linked lists.
 
 ### Built by
-- Tristan Thrasher - <# Add yours here #>
+- Tristan Thrasher - tristan.thrasher-1@ou.edu
 - Usman Abdul Jabbar - usmangta[at]gmail.com - UsmanJabbar.com
 
 ### Files
