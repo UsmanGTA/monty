@@ -4,8 +4,8 @@
 This project is a part of a Holberton Curriculum building upon previous concepts of stacks, queues and linked lists.
 
 ### Built by
-Tristan Thrasher - <# Add yours here #>
-Usman Abdul Jabbar - usmangta[at]gmail.com - UsmanJabbar.com
+- Tristan Thrasher - <# Add yours here #>
+- Usman Abdul Jabbar - usmangta[at]gmail.com - UsmanJabbar.com
 
 ### Files
 - 0-main.c - Contains all of the driver code necessary to run the interpreter.
