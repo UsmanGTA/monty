@@ -35,3 +35,10 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/* Function Declarations / Prototypes */
+void pall_s(stack_t **stack, unsigned int line_number);
+void pop_s(stack_t **stack, unsigned int line_number);
+void add_s(stack_t **stack, unsigned int line_number);
+
+void push_s(stack_t **stack, unsigned int line_number, char *data);
