@@ -7,7 +7,6 @@
  * @line_number: for reference
  * Return: Always void
  */
-
 void pall_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp; /** Temp pointer to move forward */
@@ -28,10 +27,10 @@ void pall_s(stack_t **stack, unsigned int line_number)
  * @stack: doubly linked list
  * Return: Always void
  */
-void push_s(stack_t **stack, unsigned int line_number)
+void push_s(stack_t **stack, unsigned int line_number, char *data)
 {
 	stack_t *temp = *stack; /* Stores the address of head */
-	stack_t *da_new_king = malloc(sizeof(dlistint_t)); /* Our new node */
+	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
 
 	/* Check if malloc failed */
 	if (da_new_king == NULL)
@@ -41,7 +40,7 @@ void push_s(stack_t **stack, unsigned int line_number)
 	}
 
 	/* Populating data into the new node */
-	da_new_king->n = n;
+	da_new_king->n = atoi(data);
 	da_new_king->prev = NULL;
 
 	/* If *head's empty, then set our newnode */
@@ -63,4 +62,26 @@ void push_s(stack_t **stack, unsigned int line_number)
 		*head = da_new_king; /* Our new node is now the head */
 		return (*stack);
 	}
+}
+
+
+/**
+ * pop_s - deletes the very last node added on the stack
+ * @stack: doubly linked list
+ * @line_number: line_number
+ * Return: Always 0
+ */
+void pop_s(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+	
+	if (stack == NULL || *stack == NULL)
+		return (NULL);
+
+	for (temp = *stack; temp != NULL; temp = temp->next)
+	{
+		;
+	}
+	temp->prev->next == NULL; /* Disconnect from the last node */
+	free(temp); /* Free the last node */
 }
