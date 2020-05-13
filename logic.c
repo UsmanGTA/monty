@@ -85,3 +85,43 @@ void pop_s(stack_t **stack, unsigned int line_number)
 	temp->prev->next == NULL; /* Disconnect from the last node */
 	free(temp); /* Free the last node */
 }
+
+/**
+ * add_s - adds the very last two nodes added to the stack
+ * then frees both of them
+ * @stack: doubly linked list
+ * @line_number: line number
+ * Return: Void Always
+ */
+void add_s(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+	int secondlast, last;
+	int total;
+	int nodecount;
+
+	for (temp = *stack, nodecount = 0; temp != NULL; temp = temp->next, nodecount++)
+	{
+		;
+	}
+	
+	/* Check if we have two nodes to add */
+	if (nodecount < 1)
+	{
+		dprintf(1, "L%d: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	/* Pull the values from the last two nodes, then add */
+	secondlast = temp->prev->n, last = temp->n
+	total = secondlast + last;
+
+	dprintf(1, "%d\n", total);
+
+	/* Free both of the added nodes */
+	temp->prev->prev->next = NULL; /* Disconnect the nodes */
+	secondlastnode = temp->prev;
+	lastnode = temp;
+	free(lastnode);
+	free(secondlastnode);
+}
