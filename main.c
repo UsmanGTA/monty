@@ -1,29 +1,39 @@
 #include "monty.h"
 
-#define CHUNK 1024
-int main(int ac, char **av)
+int line_count = 0;
+
+/**
+ * main - gets lines from bytecode file
+ * @argc: number of arguments
+ * @argv: argument vector
+ * Return: always 0
+ */
+
+int main(int argc, char **argv)
 {
-	char str_buf[CHUNK];
+	char *buf = NULL;
+	size_t bufSize = 0;
+	ssize_t rd;
 	FILE *fp;
-	size_t nread;
-	char *newBuf;
-	fp = fopen(av[1], "r");
-	if (fp == NULL)
+
+	if (argv[2] == NULL)
+		isatty(STDIN_FILENO);
+
+	fp = fopen(argv[1], "r");
+	if (!fp)
 	{
-		perror("error while opening\n");
-		exit(EXIT_FAILURE);
+		fprintf(stderr, "Error: cannot open file\n");
+		return (EXIT_FAILURE);
 	}
-	if (fp)
+	rd = getline(&buf, &bufSize, fp);
+	while (rd >= 0)
 	{
-		if (nread = fread(str_buf, sizeof(char), CHUNK, fp) < 0)
-		{
-			fprintf(stderr, "Error: Can't open file");
-			exit(EXIT_FAILURE);
-		}
-		else	
-			str_buf[nread] = '\0';
+		line_count++;
+		rd = getline(&buf, &bufSize, fp);
 	}
-	newBuf = str_buf;
+	free(buf);
+	buf = NULL;
 	fclose(fp);
+	printf("linecount: %d\n", line_count);
 	return (0);
 }
