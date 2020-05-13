@@ -80,14 +80,14 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 void pop_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp;
-	
+	stack_t *prevnode;
 	if (stack == NULL || *stack == NULL)
 		dprintf(1, "%d: can't pop an empty stack", line_number), exit(EXIT_FAILURE);
 
 	for (temp = *stack; temp != NULL; temp = temp->next)
 		;
 
-	temp->prev->next == NULL; /* Disconnect from the last node */
+	prevnode = temp->prev, prevnode->next = NULL; /* Disconnect from the last node */
 	free(temp); /* Free the last node */
 }
 

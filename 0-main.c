@@ -1,8 +1,12 @@
 #include "monty.h"
 
-#define INTCMD argv[0] /* int mode command */
-#define INTDATA argv[1] /* data to be added to nodes */
-#define GETLINE (bytes = getline(&buf, &bufSize, stdin))
+#define INTERPRETER argv[0] /* INTERPRETER */
+#define PROGRAM argv[1] /* PROGRAM */
+#define CMD args[0] /* push/pint/pall/nop */
+#define DATA args[1] /* Used for push */
+#define OPEN_F "Error: cannot open file %s\n"
+#define BADCMD_F "%d: unknown instruction %s\n"
+
 int line_count = 0;
 
 /**
@@ -15,52 +19,55 @@ int main(int argc, char **argv)
 {
 	char *buf = NULL;
 	char *tokens;
-	char *args[10];
-	size_t bufSize = 0, index;
+	char *args[64];
+	size_t bufSize = 0;
+	int index, flag; /* Flag resets to 0 to check if any program was executed */
 	ssize_t bytes;
 	stack_t *head = NULL;
-	/* FILE *fp; */
+	FILE *fp;
 	instruction_t opcodes[] = {
 			{"pall", pall_s},
 			{"pop", pop_s},
 			{"add", add_s},
 			{ NULL, NULL },
 		};
+	if (argc != 2)
+		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
 
-	/* NON-INTERACTIVE MODE */
-	/* if (argv[1])
-	{ */
-		/* Open the monte file as read only */
-		/* fp = fopen(argv[1], "r"); */
+	/* FILE OPERATIONS */
+	fp = fopen(PROGRAM, "r");
+	if (fp == NULL)
+		dprintf(2, OPEN_F, argv[1]);
 
-		/* Check if file open failed */
-		/* if (!fp)
-			fprintf(stderr, "Error: cannot open file\n"), exit(EXIT_FAILURE);
-	}*/
-
-	/* INTERACTIVE MODE */
-	while (GETLINE >= 0)
+	/* EXECUTION LOOP BEGINS */
+	while (1)
 	{
-		buf[bytes - 1] = '\0'; /* Replace \n with '\0' */
+		bytes = getline(&buf, &bufSize, fp), buf[bytes -1] = '\0';
 
+		printf("Buf stored: %s\n", buf);
+		/* Generate argvs */	
 		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
 			args[index] = tokens, tokens = strtok(NULL, " ");
 		args[index] = NULL;
 
+		/* Search if function exists, then execute */
 		for (index = 0; opcodes[index].opcode != NULL; index++)
 		{
 				/* Check if function exists in struct */
-				if(strcmp(args[0], opcodes[index].opcode) == 0)
-					opcodes[index].f(&head, line_count);
+				if(strcmp(CMD, opcodes[index].opcode) == 0)
+					printf("Executed %s\n", CMD), opcodes[index].f(&head, line_count), flag = 1;
 
 				/* Check if push exists and data has been given */
-				else if (strcmp(args[0], "push") == 0)
-					push_s(&head, line_count, INTDATA);
+				else if (strcmp(CMD, "push") == 0)
+					push_s(&head, line_count, DATA); flag = 1;
 		}
-		line_count++;
+		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
+			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
+		/* Reset flag = 0 to give functions another chance, then line++ */
+		flag = 0, line_count++;
 	}
 
 	/* CLEANUP */
-	free(buf)/* fclose(fp) */;
+	free(buf), fclose(fp);
 	return (0);
 }
