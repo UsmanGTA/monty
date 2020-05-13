@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "monty.h"
 
-#define MALLOCF dprintf(1, "Error: malloc failed\n")
-
+#define MALLOC_F "Error: malloc failed\n"
+#define EMPTYSTACK "%d: usage: push integer\n"
+#define MISSINGDATA "%d: usage: push integer\n"
+#define CANTADD "%d: can't add, stack too short\n"
 /**
  * pall_s - prints everything loaded onto the stack
  * @stack: doubly linked list
@@ -16,7 +18,7 @@ void pall_s(stack_t **stack, unsigned int line_number)
 	(void)line_number; /* Voiding since var not in use */
 		
 	if (stack == NULL || *stack == NULL)
-		printf("WOT IZ HEPPENING! on LINE %d\n", line_number);
+		dprintf(2, EMPTYSTACK, line_number);
 
 	for(temp = *stack; temp != NULL; temp = temp->next)
 		printf("%d\n", temp->n);
@@ -31,7 +33,7 @@ void pall_s(stack_t **stack, unsigned int line_number)
  * @data: integer to add into the linked list
  * Return: Always void
  */
-void push_s(stack_t **stack, unsigned int line_number, char *data)
+stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 {
 	stack_t *temp = *stack; /* Stores the address of head */
 	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
@@ -39,9 +41,9 @@ void push_s(stack_t **stack, unsigned int line_number, char *data)
 
 	/* Check if malloc failed | atoi failed  */
 	if (da_new_king == NULL)
-		MALLOCF, free(da_new_king), exit(EXIT_FAILURE);
+		dprintf(2, MALLOC_F), free(da_new_king), exit(EXIT_FAILURE);
 	if (n == 0)
-		dprintf(1, "L%d: usage: push integer", line_number), exit(EXIT_FAILURE);
+		dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
 
 	/* Populating data into the new node */
 	da_new_king->n = n;
@@ -108,10 +110,7 @@ void add_s(stack_t **stack, unsigned int line_number)
 	
 	/* Check if we have two nodes to add */
 	if (nodecount < 1)
-	{
-		dprintf(1, "L%d: can't add, stack too short\n", line_number);
-		exit(EXIT_FAILURE);
-	}
+		dprintf(2, CANTADD, line_number), exit(EXIT_FAILURE);
 
 	/* Pull the values from the last two nodes, then add */
 	secondlast = temp->prev->n, last = temp->n;
