@@ -1,10 +1,15 @@
 #ifndef _MONTY_H
 #define _MONTY_H
 
+extern int line_count;
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <string.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -17,9 +22,9 @@
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
@@ -32,6 +37,17 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/* Function Declarations / Prototypes */
+void pall_s(stack_t **stack, unsigned int line_number);
+void pop_s(stack_t **stack, unsigned int line_number);
+void add_s(stack_t **stack, unsigned int line_number);
+void swap_s(stack_t **stack, unsigned int line_number);
+void pint_s(stack_t **stack, unsigned int line_number);
+
+stack_t *push_s(stack_t **stack, unsigned int line_number, char *data);
+
+#endif
