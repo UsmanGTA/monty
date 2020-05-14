@@ -1,4 +1,6 @@
 #include "monty.h"
+#include <stdlib.h>
+#include "opcode.h"
 
 #define INTERPRETER argv[0] /* INTERPRETER */
 #define PROGRAM argv[1] /* PROGRAM */
@@ -8,7 +10,7 @@
 #define BADCMD_F "%d: unknown instruction %s\n"
 
 int line_count = 0;
-
+//instruction_t opcodes[100];
 /**
  * main - gets lines from bytecode file
  * @argc: number of arguments
@@ -25,14 +27,7 @@ int main(int argc, char **argv)
 	ssize_t bytes;
 	stack_t *head = NULL;
 	FILE *fp;
-	instruction_t opcodes[] = {
-			{"pall", pall_s},
-			{"pop", pop_s},
-			{"add", add_s},
-			{"pint", pint_s},
-			{"swap", swap_s},
-			{ NULL, NULL },
-		};
+
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
 
@@ -49,6 +44,8 @@ int main(int argc, char **argv)
 			buf[bytes - 1] = '\0';
 		else
 			break;
+		 if (args[0][0] == 35)
+			 continue;
 
 		/* Generate argvs */
 		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
@@ -76,6 +73,6 @@ int main(int argc, char **argv)
 	}
 
 	/* CLEANUP */
-	free(buf), fclose(fp);
+	free(buf), free_stack(head), fclose(fp);
 	return (0);
 }

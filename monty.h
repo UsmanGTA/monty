@@ -47,7 +47,8 @@ void pop_s(stack_t **stack, unsigned int line_number);
 void add_s(stack_t **stack, unsigned int line_number);
 void swap_s(stack_t **stack, unsigned int line_number);
 void pint_s(stack_t **stack, unsigned int line_number);
-
+void nop(__attribute((unused))stack_t **stack, __attribute((unused))int line_number);
+void free_stack(stack_t *head);
 stack_t *push_s(stack_t **stack, unsigned int line_number, char *data);
 
 #endif
