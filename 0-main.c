@@ -1,4 +1,5 @@
 #include "monty.h"
+#include "opcodes.h"
 
 #define INTERPRETER argv[0] /* INTERPRETER */
 #define PROGRAM argv[1] /* PROGRAM */
@@ -24,22 +25,12 @@ int main(int argc, char **argv)
 	ssize_t bytes;
 	stack_t *head = NULL;
 	FILE *fp = fopen(PROGRAM, "r");
-	/* instruction_t opcodes[] = {
-			{"pall", pall_s},
-			{"pop", pop_s},
-			{"add", add_s},
-			{"pint", pint_s},
-			{"swap", swap_s},
-			{ NULL, NULL },
-		}; */
 
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
-
 	if (fp == NULL)
 		dprintf(2, OPEN_F, argv[1]);
 
-	/* EXECUTION LOOP BEGINS */
 	while (1)
 	{
 		bytes = getline(&buf, &bufSize, fp);
@@ -61,7 +52,7 @@ int main(int argc, char **argv)
 		{
 			/* Check if function exists in struct */
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
-				opcodes[index].f(&head, line_count), flag = 1, printf("GOOD\n");
+				opcodes[index].f(&head, line_count), flag = 1;
 
 			/* Check if push exists and data has been given */
 			else if (strcmp(CMD, "push") == 0)
@@ -72,10 +63,8 @@ int main(int argc, char **argv)
 		}
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
 			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
-		/* Reset flag = 0 to give functions another chance, then line++ */
-		flag = 0, line_count++;
+		flag = 0, line_count++; /* Reset flag to check next loop */
 	}
-
 	/* CLEANUP */
 	free(buf), free_stack(head), fclose(fp);
 	return (0);

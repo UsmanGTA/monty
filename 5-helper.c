@@ -2,8 +2,8 @@
 
 /**
  * free_stack - frees the stack
- * @head: head doubly
- * Return: Void
+ * @head: doubly linked list
+ * Return: Always Void
  */
 void free_stack(stack_t *head)
 {
