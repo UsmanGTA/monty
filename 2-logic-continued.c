@@ -67,12 +67,9 @@ void pall_s(stack_t **stack, unsigned int line_number)
 
 	(void)line_number; /* Voiding since var not in use */
 
-	if (stack == NULL || *stack == NULL)
-	{
-		dprintf(2, EMPTYSTACK, line_number);
-	}
-	for (temp = *stack; temp != NULL; temp = temp->next)
-		printf("%d\n", temp->n);
+	if (stack != NULL || *stack != NULL)
+		for (temp = *stack; temp != NULL; temp = temp->next)
+			dprintf(1, "%d\n", temp->n);
 }
 
 /**

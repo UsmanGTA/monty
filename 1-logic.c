@@ -61,14 +61,6 @@ void add_s(stack_t **stack, unsigned int line_number)
 	temp = (*stack)->next;
 	      pop_s(stack, line_number);
 	      (*stack)->n = total;
-
-/*	dprintf(1, "%d\n", total); */
-
-	/* Free both of the added nodes */
-/*	temp->prev->prev->next = NULL; Disconnect the nodes */
-/*	secondlastnode = temp->prev; */
-/*	lastnode = temp; */
-/*	free(secondlastnode); */
 }
 
 /**
