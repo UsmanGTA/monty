@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "monty.h"
 
 #define MALLOC_F "Error: malloc failed\n"
