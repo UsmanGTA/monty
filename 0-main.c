@@ -18,26 +18,24 @@ int line_count = 0;
 int main(int argc, char **argv)
 {
 	char *buf = NULL;
-	char *tokens;
-	char *args[64];
+	char *tokens, *args[64];
 	size_t bufSize = 0;
 	int index, flag; /* Flag resets to 0 to check if any program was executed */
 	ssize_t bytes;
 	stack_t *head = NULL;
-	FILE *fp;
-	instruction_t opcodes[] = {
+	FILE *fp = fopen(PROGRAM, "r");
+	/* instruction_t opcodes[] = {
 			{"pall", pall_s},
 			{"pop", pop_s},
 			{"add", add_s},
 			{"pint", pint_s},
 			{"swap", swap_s},
 			{ NULL, NULL },
-		};
+		}; */
+
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
 
-	/* FILE OPERATIONS */
-	fp = fopen(PROGRAM, "r");
 	if (fp == NULL)
 		dprintf(2, OPEN_F, argv[1]);
 
@@ -55,12 +53,15 @@ int main(int argc, char **argv)
 			args[index] = tokens, tokens = strtok(NULL, " ");
 		args[index] = NULL;
 
+		if (args[0][0] == '#')
+				continue;
+	
 		/* Search if function exists, then execute */
 		for (index = 0; opcodes[index].opcode != NULL; index++)
 		{
 			/* Check if function exists in struct */
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
-				opcodes[index].f(&head, line_count), flag = 1;
+				opcodes[index].f(&head, line_count), flag = 1, printf("GOOD\n");
 
 			/* Check if push exists and data has been given */
 			else if (strcmp(CMD, "push") == 0)
@@ -76,6 +77,6 @@ int main(int argc, char **argv)
 	}
 
 	/* CLEANUP */
-	free(buf), fclose(fp);
+	free(buf), free_stack(head), fclose(fp);
 	return (0);
 }

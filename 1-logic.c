@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "monty.h"
+#include "monty2.h"
 
 #define MALLOC_F "Error: malloc failed\n"
 #define EMPTYSTACK "L%d: usage: push integer\n"
