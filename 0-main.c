@@ -21,16 +21,14 @@ int main(int argc, char **argv)
 	char *buf = NULL;
 	char *tokens, *args[64];
 	size_t bufSize = 0;
-	int index, flag; /* Flag resets to 0 to check if any program was executed */
-	ssize_t bytes;
+	ssize_t index, flag, bytes;
 	stack_t *head = NULL;
 	FILE *fp = fopen(PROGRAM, "r");
 
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
 	if (fp == NULL)
-		dprintf(2, OPEN_F, argv[1]);
-
+		dprintf(2, OPEN_F, argv[1]), exit(EXIT_FAILURE);
 	while (1)
 	{
 		bytes = getline(&buf, &bufSize, fp);
@@ -38,23 +36,15 @@ int main(int argc, char **argv)
 			buf[bytes - 1] = '\0';
 		else
 			break;
-
-		/* Generate argvs */
 		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
 			args[index] = tokens, tokens = strtok(NULL, " ");
 		args[index] = NULL;
-
 		if (args[0][0] == '#')
-				continue;
-	
-		/* Search if function exists, then execute */
+			continue;
 		for (index = 0; opcodes[index].opcode != NULL; index++)
 		{
-			/* Check if function exists in struct */
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
 				opcodes[index].f(&head, line_count), flag = 1;
-
-			/* Check if push exists and data has been given */
 			else if (strcmp(CMD, "push") == 0)
 			{
 				push_s(&head, line_count, DATA), flag = 1;
