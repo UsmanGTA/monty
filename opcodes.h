@@ -9,7 +9,7 @@ instruction_t opcodes[] = {
 		{"swap", swap_s},
 		{"sub", sub_s},
 		{"mul", mul_s},
-		{"div", mul_s},
+		{"div", div_s},
 		{"mod", mod_s},
 		{"pchar", pchar_s},
 		{"pstr", pstr_s},

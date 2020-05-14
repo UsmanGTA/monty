@@ -17,7 +17,7 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 		dprintf(2, PCHAR_F, line_number), exit(EXIT_FAILURE);
 
 	/* Extract the value from the stack & print if its an ASCII */
-	if ((*stack)->n >= ASCIIMIN && (*stack)->n >= ASCIIMAX)
+	if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
 		dprintf(1, "%c\n", (*stack)->n);
 
 	/* If not an ASCII, fail */
