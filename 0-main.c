@@ -24,7 +24,8 @@ int main(int argc, char **argv)
 	unsigned int line_count = 0;
 	FILE *fp;
 	instruction_t opcodes[] = {
-		{"pall", pall_s}, {"pop", pop_s}, {"add", add_s}, {"pint", pint_s},
+		{"pall", pall_s}, {"pop", pop_s}, {"add", add_s},
+		{"nop", nop_s}, {"pint", pint_s},
 		{"swap", swap_s}, {"sub", sub_s}, {"mul", mul_s}, {"div", div_s},
 		{"mod", mod_s}, {"pchar", pchar_s}, {"pstr", pstr_s}, {"push", push_s}
 	};
@@ -38,11 +39,12 @@ int main(int argc, char **argv)
 	while ((bytes = getline(&buf, &bufSize, fp)) != -1)
 	{
 		line_count++, buf[bytes - 1] = '\0';
-		args[0] = strtok(buf, " "), args[1] = strtok(NULL, " "); data = DATA;
+		args[0] = strtok(buf, " "), args[1] = strtok(NULL, " ");
+		data = DATA;
 		if (args[0][0] == '#' || args[0] == NULL)
 			continue;
 
-		for (index = 0; index < 12; index++)
+		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
 				opcodes[index].f(&head, line_count), flag = 1;
 

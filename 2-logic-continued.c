@@ -11,7 +11,6 @@
  * linked list
  * @stack: doubly linked list
  * @line_number: linenumber
- * @data: integer to add into the linked list
  * Return: Always void
  */
 
@@ -76,14 +75,14 @@ void pall_s(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * nop - opcode that doesn't do anythin
+ * nop_s - opcode that doesn't do anythin
  * @stack: stack to be evaluated
  * @line_number: line count
  * Return: always void
  */
 
-void nop(__attribute((unused))stack_t **stack,
-	 __attribute((unused))int line_number)
+void nop_s(stack_t **stack, unsigned int line_number)
 {
-	;
+	(void) stack;
+	(void) line_number;
 }
