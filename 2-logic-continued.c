@@ -29,7 +29,7 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 	else if (strcmp(data, "0") == 0)
 		n = 0;
 	for (i = 0; data[i] != '\0'; i++)
-		if (data[i] >= '0' && data[i] <= '9' || data[i] == '-')
+		if ((data[i] >= '0' && data[i] <= '9') || data[i] == '-')
 			continue;
 		else
 			dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
