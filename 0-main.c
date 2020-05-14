@@ -40,7 +40,10 @@ int main(int argc, char **argv)
 			args[index] = tokens, tokens = strtok(NULL, " ");
 		args[index] = NULL;
 		if (args[0][0] == '#')
+		{
+			line_count++;
 			continue;
+		}
 		for (index = 0; opcodes[index].opcode != NULL; index++)
 		{
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
@@ -55,9 +58,6 @@ int main(int argc, char **argv)
 			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
 		flag = 0, line_count++; /* Reset flag to check next loop */
 	}
-	/* CLEANUP */
 	free(buf), free_stack(head), fclose(fp);
 	return (0);
 }
-
-
