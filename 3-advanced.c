@@ -152,10 +152,11 @@ void mod_s(stack_t **stack, unsigned int line_number)
 		dprintf(2, MOD_ZERO, line_number), exit(EXIT_FAILURE);
 
 	/* Complete the division operation */
-	total = secondlast / last;
+	total = secondlast % last;
 
 	/* Free the node */
 	temp = (*stack)->next;
 	      pop_s(stack, line_number);
 	      (*stack)->n = total;
 }
+

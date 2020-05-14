@@ -19,7 +19,6 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 {
 	stack_t *temp = *stack; /* Stores the address of head */
 	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
-	int n = atoi(data);
 
 	/* Check if malloc failed | atoi failed  */
 	if (da_new_king == NULL)
@@ -27,11 +26,11 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 		dprintf(2, MALLOC_F);
 		free(da_new_king), exit(EXIT_FAILURE);
 	}
-	if (n == 0)
+	if (data == NULL)
 		dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
 
 	/* Populating data into the new node */
-	da_new_king->n = n;
+	da_new_king->n = atoi(data);
 	da_new_king->prev = NULL;
 
 	/* If *head's empty, then set our newnode */
@@ -87,3 +86,4 @@ void nop(__attribute((unused))stack_t **stack, __attribute((unused))int line_num
 {
 	;
 }
+
