@@ -6,6 +6,12 @@
 #define CANTADD "L%d: can't add, stack too short\n"
 #define PINT_F "L%d: can't pint, stack empty\n"
 
+/**
+ * pop_s - pops from top of stack
+ * @stack: double pointer to stack
+ * @line_number: line count
+ * Return: Always void
+ */
 
 void pop_s(stack_t **stack, unsigned int line_number)
 {

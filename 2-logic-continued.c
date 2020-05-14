@@ -82,7 +82,8 @@ void pall_s(stack_t **stack, unsigned int line_number)
  * Return: always void
  */
 
-void nop(__attribute((unused))stack_t **stack, __attribute((unused))int line_number)
+void nop(__attribute((unused))stack_t **stack,
+	 __attribute((unused))int line_number)
 {
 	;
 }

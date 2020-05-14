@@ -5,7 +5,7 @@
 #define ASCIIMIN 0
 
 /**
- * pint_s - prints the value of the head node
+ * pchar_s - prints the value of the head node
  * @stack: doubly linked list
  * @line_number: line number
  * Return: Always void
@@ -24,6 +24,13 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 	else
 		dprintf(2, PCHAR_ASCII_F, line_number);
 }
+
+/**
+ * pstr_s - prints string
+ * @stack: double pointer to stack
+ * @line_number: line count unused
+ * Return: Always void
+ */
 
 void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 {
