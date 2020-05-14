@@ -159,4 +159,3 @@ void mod_s(stack_t **stack, unsigned int line_number)
 	      pop_s(stack, line_number);
 	      (*stack)->n = total;
 }
-

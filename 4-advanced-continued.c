@@ -50,4 +50,3 @@ void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 	}
 	dprintf(1, "\n");
 }
-

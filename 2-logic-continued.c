@@ -87,4 +87,3 @@ void nop(__attribute((unused))stack_t **stack,
 {
 	;
 }
-
