@@ -17,4 +17,3 @@ instruction_t opcodes[] = {
 	};
 
 #endif
-
