@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 		args[index] = NULL;
 		if (args[0][0] == '#')
 		{
-			linecount++;
+			line_count++;
 			continue;
 		}
 		for (index = 0; opcodes[index].opcode != NULL; index++)
