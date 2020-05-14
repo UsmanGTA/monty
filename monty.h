@@ -1,7 +1,7 @@
 #ifndef _MONTY_H
 #define _MONTY_H
 
-extern int line_count;
+extern char *data;
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,13 +41,14 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+
 /* Mandatory Task Function Declarations / Prototypes */
 void pall_s(stack_t **stack, unsigned int line_number);
 void pop_s(stack_t **stack, unsigned int line_number);
 void add_s(stack_t **stack, unsigned int line_number);
 void swap_s(stack_t **stack, unsigned int line_number);
 void pint_s(stack_t **stack, unsigned int line_number);
-stack_t *push_s(stack_t **stack, unsigned int line_number, char *data);
+void push_s(stack_t **stack, unsigned int line_number);
 
 /* Advanced Task Function Declarations / Prototypes */
 void sub_s(stack_t **stack, unsigned int line_number);

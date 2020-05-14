@@ -15,7 +15,7 @@
  * Return: Always void
  */
 
-stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
+void push_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = *stack; /* Stores the address of head */
 	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
@@ -45,7 +45,6 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 	{
 		da_new_king->next = NULL; /* Terminate the linked list */
 		*stack = da_new_king; /* Copy new node to *head */
-		return (*stack);
 	}
 	/* Since our new node's supposed to become the head */
 	/* the next node is the only variable to play with */
@@ -55,7 +54,6 @@ stack_t *push_s(stack_t **stack, unsigned int line_number, char *data)
 		da_new_king->next = temp; /* Else our new node should point to head */
 		temp->prev = da_new_king; /*Point the next node->prev to the new head node */
 		*stack = da_new_king; /* Our new node is now the head */
-		return (*stack);
 	}
 }
 
