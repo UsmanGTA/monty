@@ -36,10 +36,10 @@ int main(int argc, char **argv)
 			buf[bytes - 1] = '\0';
 		else
 			break;
-		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
-			args[index] = tokens, tokens = strtok(NULL, " ");
+		for (index = 0, tokens = strtok(buf, " \n\t"); tokens != NULL; index++)
+			args[index] = tokens, tokens = strtok(NULL, " \t");
 		args[index] = NULL;
-		if (args[0][0] == '#')
+		if (args[0][0] == '#' || args[0] == NULL)
 		{
 			line_count++;
 			continue;
