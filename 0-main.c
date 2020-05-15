@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 {
 	char *buf = NULL, *args[2];
 	size_t bufSize = 0;
-	ssize_t index, flag, bytes;
+	ssize_t index, flag = 0, bytes;
 	stack_t *head = NULL;
 	unsigned int line_count = 0;
 	FILE *fp;
