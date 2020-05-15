@@ -4,6 +4,8 @@
 #define EMPTYSTACK "L%d: usage: push integer\n"
 #define MALLOC_F "Error: malloc failed\n"
 #define MISSINGDATA "L%d: usage: push integer\n"
+#define FREEALL (free(bag.buf), fclose(bag.fp), exit(EXIT_FAILURE))
+#define FREESTACK (free_stack(stack_t *stack))
 
 /**
  * push_s - pushes an integer to the stack
@@ -20,34 +22,32 @@ void push_s(stack_t **stack, unsigned int line_number)
 	stack_t *da_new_king = malloc(sizeof(stack_t)); /* Our new node */
 	int n, i;
 
-	/* Check if malloc failed | atoi failed  */
 	if (da_new_king == NULL)
-		dprintf(2, MALLOC_F), free(da_new_king), exit(EXIT_FAILURE);
+		dprintf(2, MALLOC_F), exit(EXIT_FAILURE);
 	if (bag.data == NULL)
-		dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
+	{
+		dprintf(2, MISSINGDATA, line_number);
+		free(da_new_king), free_stack(*stack), FREEALL;
+	}
 	else if (strcmp(bag.data, "0") == 0)
 		n = 0;
 	for (i = 0; bag.data[i] != '\0'; i++)
 		if ((bag.data[i] >= '0' && bag.data[i] <= '9') || bag.data[i] == '-')
 			continue;
 		else
-			dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
+		{
+			dprintf(2, MISSINGDATA, line_number),
+			free(da_new_king), free_stack(*stack), FREEALL;
+		}
 	n = atoi(bag.data);
-
 	/* Populating data into the new node */
 	da_new_king->n = n;
 	da_new_king->prev = NULL;
-
-	/* If *head's empty, then set our newnode */
-	/* to be the head with prev and next == NULL */
 	if (*stack == NULL)
 	{
 		da_new_king->next = NULL; /* Terminate the linked list */
 		*stack = da_new_king; /* Copy new node to *head */
 	}
-	/* Since our new node's supposed to become the head */
-	/* the next node is the only variable to play with */
-	/* If head wasn't null, now's the time to connect it */
 	else
 	{
 		da_new_king->next = temp; /* Else our new node should point to head */

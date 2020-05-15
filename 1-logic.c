@@ -51,8 +51,8 @@ void add_s(stack_t **stack, unsigned int line_number)
 	if (stack == NULL || *stack == NULL || nodecount < 2)
 	{
 		dprintf(2, CANTADD, line_number);
-		free(stack);
-		exit(EXIT_FAILURE);
+		free_stack(*stack), fclose(bag.fp);
+		free(bag.buf), exit(EXIT_FAILURE);
 	}
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;

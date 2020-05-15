@@ -47,9 +47,11 @@ int main(int argc, char **argv)
 		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
 				opcodes[index].f(&head, line_count), flag = 1;
-
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
-			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
+		{
+			dprintf(2, BADCMD_F, line_count, CMD),
+			free_stack(head), free(buf), fclose(fp), exit(EXIT_FAILURE);
+		}
 		flag = 0; /* Reset flag to check next loop */
 	}
 	free(buf), free_stack(head), fclose(fp);
