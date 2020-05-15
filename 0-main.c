@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
 			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
-		flag = 0, /* Reset flag to check next loop */
+		flag = 0; /* Reset flag to check next loop */
 	}
 	free(buf), free_stack(head), fclose(fp);
 	return (0);
