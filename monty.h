@@ -39,7 +39,15 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-typedef struct baggage_claims {
+/**
+ * struct baggage_claims - extern variables
+ * @data: pointer tp data
+ * @buf: pointer to buf
+ * @fp: pointer to file
+ */
+
+typedef struct baggage_claims
+{
 	char *data;
 	char *buf;
 	FILE *fp;
