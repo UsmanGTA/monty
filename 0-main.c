@@ -5,7 +5,7 @@
 #define CMD args[0] /* push/pint/pall/nop */
 #define DATA args[1] /* Used for push */
 #define OPEN_F "Error: cannot open file %s\n"
-#define BADCMD_F "%d: unknown instruction %s\n"
+#define BADCMD_F "L%d: unknown instruction %s\n"
 
 char *data = NULL;
 
@@ -39,11 +39,10 @@ int main(int argc, char **argv)
 	while ((bytes = getline(&buf, &bufSize, fp)) != -1)
 	{
 		line_count++, buf[bytes - 1] = '\0';
-		args[0] = strtok(buf, " "), args[1] = strtok(NULL, " ");
-		data = DATA;
-		if (args[0][0] == '#' || args[0] == NULL)
+		args[0] = strtok(buf, " ");
+		if (args[0] == NULL || args[0][0] == '#')
 			continue;
-
+		args[1] = strtok(NULL, " "), data = DATA;
 		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
 				opcodes[index].f(&head, line_count), flag = 1;
