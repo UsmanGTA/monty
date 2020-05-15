@@ -1,8 +1,6 @@
 #ifndef _MONTY_H
 #define _MONTY_H
 
-extern char *data;
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -41,6 +39,12 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+typedef struct baggage_claims {
+	char *data;
+	char *buf;
+	FILE *fp;
+} baggage;
+extern baggage bag;
 
 /* Mandatory Task Function Declarations / Prototypes */
 void pall_s(stack_t **stack, unsigned int line_number);

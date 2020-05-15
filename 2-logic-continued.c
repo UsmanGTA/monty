@@ -23,16 +23,16 @@ void push_s(stack_t **stack, unsigned int line_number)
 	/* Check if malloc failed | atoi failed  */
 	if (da_new_king == NULL)
 		dprintf(2, MALLOC_F), free(da_new_king), exit(EXIT_FAILURE);
-	if (data == NULL)
+	if (bag.data == NULL)
 		dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
-	else if (strcmp(data, "0") == 0)
+	else if (strcmp(bag.data, "0") == 0)
 		n = 0;
-	for (i = 0; data[i] != '\0'; i++)
-		if ((data[i] >= '0' && data[i] <= '9') || data[i] == '-')
+	for (i = 0; bag.data[i] != '\0'; i++)
+		if ((bag.data[i] >= '0' && bag.data[i] <= '9') || bag.data[i] == '-')
 			continue;
 		else
 			dprintf(2, MISSINGDATA, line_number), exit(EXIT_FAILURE);
-	n = atoi(data);
+	n = atoi(bag.data);
 
 	/* Populating data into the new node */
 	da_new_king->n = n;

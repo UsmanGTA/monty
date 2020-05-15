@@ -7,7 +7,7 @@
 #define OPEN_F "Error: cannot open file %s\n"
 #define BADCMD_F "L%d: unknown instruction %s\n"
 
-char *data = NULL;
+baggage bag = {NULL, NULL, NULL};
 
 /**
  * main - gets lines from bytecode file
@@ -36,13 +36,14 @@ int main(int argc, char **argv)
 	fp = fopen(PROGRAM, "r");
 	if (fp == NULL)
 		dprintf(2, "Error: malloc failed\n"), exit(EXIT_FAILURE);
+	bag.fp = fp;
 	while ((bytes = getline(&buf, &bufSize, fp)) != -1)
 	{
-		line_count++, buf[bytes - 1] = '\0';
+		line_count++, buf[bytes - 1] = '\0', bag.buf = buf;
 		args[0] = strtok(buf, " ");
 		if (args[0] == NULL || args[0][0] == '#')
 			continue;
-		args[1] = strtok(NULL, " "), data = DATA;
+		args[1] = strtok(NULL, " "), bag.data = DATA;
 		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, opcodes[index].opcode) == 0)
 				opcodes[index].f(&head, line_count), flag = 1;
