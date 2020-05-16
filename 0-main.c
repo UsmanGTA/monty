@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 		args[0] = strtok(buf, " ");
 		if (args[0] == NULL || args[0][0] == '#')
 			continue;
-		args[1] = strtok(NULL, " "), univ.data = DATA;
+		args[1] = strtok(NULL, " "), univ.data = args[1];
 		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, func[index].opcode) == 0)
 				func[index].f(&head, line_num), flag = 1;
