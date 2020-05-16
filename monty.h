@@ -84,6 +84,7 @@ void pstr_s(stack_t **stack, unsigned int line_number);
 
 /* Helper Functions */
 void free_stack(stack_t *head);
+void rip(void);
 
 /*******************************************************/
 
