@@ -4,7 +4,7 @@
 #define PROGRAM argv[1] /* PROGRAM */
 #define CMD args[0] /* push/pint/pall/nop */
 #define DATA args[1] /* Used for push */
-#define OPEN_F "Error: cannot open file %s\n"
+#define OPEN_F "Error: Can't open file %s\n"
 #define BADCMD_F "L%d: unknown instruction %s\n"
 
 global_data univ = {NULL, NULL, NULL};
