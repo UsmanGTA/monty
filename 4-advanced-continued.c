@@ -14,10 +14,7 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 {
 	/* Check if stack's null */
 	if (*stack == NULL)
-	{
-		dprintf(2, PCHAR_F, line_number), free_stack(*stack);
-		fclose(bag.fp), free(bag.buf), exit(EXIT_FAILURE);
-	}
+		dprintf(2, PCHAR_F, line_number), free_stack(*stack), rip();
 
 	/* Extract the value from the stack & print if its an ASCII */
 	if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
@@ -41,12 +38,12 @@ void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 	/* If stack == NULL, print new line */
 	if (*stack == NULL)
 	{
-		dprintf(1, "\n"), free_stack(*stack), fclose(bag.fp);
-		free(bag.buf), exit(EXIT_FAILURE);
+		dprintf(1, "\n"), free_stack(*stack), fclose(univ.fp);
+		free(univ.buf), exit(EXIT_FAILURE);
 	}
 
 	/* If the stack isn't empty and has valid ASCII values, then print */
-	for (temp = *stack; temp != NULL && temp->n != 0; temp = temp->next)
+	for (temp = *stack; temp != NULL || temp->n != 0; temp = temp->next)
 	{
 		if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
 			dprintf(1, "%c", temp->n);
