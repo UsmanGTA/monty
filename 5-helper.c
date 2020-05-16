@@ -16,22 +16,3 @@ void free_stack(stack_t *head)
 		free(temp);
 	}
 }
-
-/**
- * rip - cleans out everything in
- * the struct, with an effective
- * exit statement included following
- * successful operations.
- * @stack
- */
-void rip(void)
-{
-	if (univ.buf || univ.fp)
-	{
-		if (univ.buf != NULL)
-			free(univ.buf);
-		if (univ.fp != NULL)
-			fclose(univ.fp);
-	}
-	exit(EXIT_FAILURE);
-}
