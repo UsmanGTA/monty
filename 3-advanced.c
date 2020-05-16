@@ -128,7 +128,7 @@ void mod_s(stack_t **stack, unsigned int line_number)
 	/* Check if we have two nodes to add */
 	if (stack == NULL || *stack == NULL || nodecount < 2)
 		dprintf(2, MOD_F, line_number), free_stack(*stack), rip();
-		
+
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 

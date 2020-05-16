@@ -52,10 +52,7 @@ int main(int argc, char **argv)
 			if (strcmp(CMD, func[index].opcode) == 0)
 				func[index].f(&head, line_num), flag = 1;
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
-		{
-			dprintf(2, BADCMD_F, line_num, CMD),
-			free_stack(head), free(buf), fclose(fp), exit(EXIT_FAILURE);
-		}
+			dprintf(2, BADCMD_F, line_num, CMD), free_stack(head), rip();
 		flag = 0; /* Reset flag to check next loop */
 	}
 	free_stack(head), rip();
