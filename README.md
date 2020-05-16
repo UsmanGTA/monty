@@ -33,6 +33,10 @@ The monty program runs the bytecodes line by line and stop if either:
 - it executed properly every line of the file
 - it finds an error in the file
 - an error occured
+
 If you cant malloc anymore, print the error message Error: malloc failed, followed by a new line, and exit with status EXIT_FAILURE.
 You have to use malloc and free and are not allowed to use any other function from man malloc (realloc, calloc, )
 
+This project allows us to dive deeper into stacks and queues where stacks are built with the help of linked lists. Furthermore, this project also tries to build on previous concepts such as memory management, LIFO, FIFO and manipulating such stacks.
+
+The core of the project lies in the push function that allows users to build the stack (LIFO). Further down the line, new functions had to integrated to affirm the all the previous concepts.
