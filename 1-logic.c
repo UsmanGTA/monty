@@ -30,7 +30,7 @@ void push_s(stack_t **stack, unsigned int line_number)
 	else
 	{
 		for (i = 0; univ.data[i] != '\0'; i++)
-			if ((univ.data[i] >= '0' && univ.data[i] <= '9') || univ.data[0] == '-')
+			if ((univ.data[i] >= '0' && univ.data[i] <= '9') || univ.data[i] == '-')
 				continue;
 			else
 				dprintf(2, PUSH_F, line_number), free(new), free_stack(*stack), rip();
