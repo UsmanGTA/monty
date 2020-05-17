@@ -62,6 +62,7 @@ typedef struct global_data
 } global_data;
 
 extern global_data univ;
+global_data univ;
 
 /*******************************************************/
 

@@ -6,8 +6,7 @@
 #define DATA args[1] /* Used for push */
 #define OPEN_F "Error: Can't open file %s\n"
 #define BADCMD_F "L%d: unknown instruction %s\n"
-
-global_data univ = {NULL, NULL, NULL};
+#define DELIM " \t\n\r\a"
 
 /**
  * main - gets lines from bytecode file
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
 		{"div", div_s}, {"mod", mod_s}, {"pchar", pchar_s}, {"pstr", pstr_s},
 		{"push", push_s},
 	};
-	
+
 	/* FILE OPERATIONS */
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
@@ -44,10 +43,10 @@ int main(int argc, char **argv)
 	while ((bytes = getline(&buf, &bufSize, fp)) != -1)
 	{
 		buf[bytes - 1] = '\0', univ.buf = buf, line_num++;
-		args[0] = strtok(buf, " ");
+		args[0] = strtok(buf, DELIM);
 		if (args[0] == NULL || args[0][0] == '#')
 			continue;
-		args[1] = strtok(NULL, " "), univ.data = args[1];
+		args[1] = strtok(NULL, DELIM), univ.data = args[1];
 		for (index = 0; index < 13; index++)
 			if (strcmp(CMD, func[index].opcode) == 0)
 				func[index].f(&head, line_num), flag = 1;

@@ -34,7 +34,7 @@ void sub_s(stack_t **stack, unsigned int line_number)
 	total = secondlast - last;
 
 	/* Free the node */
-	temp = (*stack)->next; 
+	temp = (*stack)->next;
 	pop_s(stack, line_number);
 	(*stack)->n = total;
 }
