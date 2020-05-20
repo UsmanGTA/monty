@@ -48,8 +48,11 @@ void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 	{
 		if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
 			dprintf(1, "%c", temp->n);
-		else					/* Bad ASCII value should break it */
-			break;
+		else               /* Bad ASCII value should break it */
+		{
+			dprintf(1, "\n");
+			return;
+		}
 	}
 	dprintf(1, "\n");
 }
