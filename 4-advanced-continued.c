@@ -21,7 +21,7 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 		dprintf(1, "%c\n", (*stack)->n);
 
 	/* If not an ASCII, fail */
-	else
+	else if (!isascii((*stack)->n))
 		dprintf(2, PCHAR_ASCII_F, line_number);
 }
 
