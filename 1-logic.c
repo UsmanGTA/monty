@@ -29,12 +29,8 @@ void push_s(stack_t **stack, unsigned int line_number)
 		n = 0;
 	else
 	{
-		for (i = 0; univ.data[i] != '\0'; i++)
-			if ((univ.data[i] >= '0' && univ.data[i] <= '9') || univ.data[i] == '-')
-				continue;
-			else
-				dprintf(2, PUSH_F, line_number), free(new), free_stack(*stack), rip();
-		n = atoi(univ.data);
+		dprintf(2, "L%d: can't pop an empty stack\n", line_number);
+		free(bag.buf), fclose(bag.fp), exit(EXIT_FAILURE);
 	}
 
 	/* Populating data into the new node */
