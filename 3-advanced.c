@@ -2,9 +2,10 @@
 
 #define SUB_F "L%d: can't sub, stack too short\n"
 #define DIV_F "L%d: can't div, stack too short\n"
-#define ZERO "L%d: division by zero\n"
+#define DIV_ZERO "L%d: division by zero\n"
 #define MUL_F "L%d: can't mul, stack too short\n"
 #define MOD_F "L%d: can't mod, stack too short\n"
+#define MOD_ZERO "L%d: division by zero\n"
 
 /**
  * sub_s - subtracts the very last two elements
@@ -18,15 +19,19 @@ void sub_s(stack_t **stack, unsigned int line_number)
 	stack_t *temp = *stack;
 	int secondlast, last;
 	int total;
-	int ncount;
+	int nodecount;
 
-	for (ncount = 0; temp != NULL; temp = temp->next, ncount++)
+	for (temp = *stack, nodecount = 0; temp != NULL;
+	     temp = temp->next, nodecount++)
 		;
 
 	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || ncount < 2)
-		dprintf(2, SUB_F, line_number), free(*stack), rip();
-
+	if (stack == NULL || *stack == NULL || nodecount < 2)
+	{
+		dprintf(2, SUB_F, line_number);
+		free(stack);
+		exit(EXIT_FAILURE);
+	}
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 
@@ -35,8 +40,8 @@ void sub_s(stack_t **stack, unsigned int line_number)
 
 	/* Free the node */
 	temp = (*stack)->next;
-	pop_s(stack, line_number);
-	(*stack)->n = total;
+	      pop_s(stack, line_number);
+	      (*stack)->n = total;
 }
 
 /**
@@ -50,29 +55,33 @@ void div_s(stack_t **stack, unsigned int line_number)
 	stack_t *temp = *stack;
 	int secondlast, last;
 	int total;
-	int ncount;
+	int nodecount;
 
-	for (ncount = 0; temp != NULL; temp = temp->next, ncount++)
+	for (temp = *stack, nodecount = 0; temp != NULL;
+	     temp = temp->next, nodecount++)
 		;
 
 	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || ncount < 2)
-		dprintf(2, DIV_F, line_number), free_stack(*stack), rip();
-
+	if (stack == NULL || *stack == NULL || nodecount < 2)
+	{
+		dprintf(2, DIV_F, line_number);
+		free_stack(*stack), fclose(bag.fp);
+		free(bag.buf), exit(EXIT_FAILURE);
+	}
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 
 	/* Check if the top stack has 0 */
 	if (last == 0)
-		dprintf(2, ZERO, line_number), rip();
+		dprintf(2, DIV_ZERO, line_number), exit(EXIT_FAILURE);
 
 	/* Complete the division operation */
 	total = secondlast / last;
 
 	/* Free the node */
 	temp = (*stack)->next;
-	pop_s(stack, line_number);
-	(*stack)->n = total;
+	      pop_s(stack, line_number);
+	      (*stack)->n = total;
 }
 
 /**
@@ -94,8 +103,11 @@ void mul_s(stack_t **stack, unsigned int line_number)
 
 	/* Check if we have two nodes to add */
 	if (stack == NULL || *stack == NULL || nodecount < 2)
-		dprintf(2, MUL_F, line_number), free_stack(*stack), rip();
-
+	{
+		dprintf(2, MUL_F, line_number);
+		free_stack(*stack), fclose(bag.fp);
+		free(bag.buf), exit(EXIT_FAILURE);
+	}
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 
@@ -104,8 +116,8 @@ void mul_s(stack_t **stack, unsigned int line_number)
 
 	/* Free the node */
 	temp = (*stack)->next;
-	pop_s(stack, line_number);
-	(*stack)->n = total;
+	      pop_s(stack, line_number);
+	      (*stack)->n = total;
 }
 
 /**
@@ -127,14 +139,17 @@ void mod_s(stack_t **stack, unsigned int line_number)
 
 	/* Check if we have two nodes to add */
 	if (stack == NULL || *stack == NULL || nodecount < 2)
-		dprintf(2, MOD_F, line_number), free_stack(*stack), rip();
-
+	{
+		dprintf(2, MOD_F, line_number);
+		free_stack(*stack), fclose(bag.fp);
+		free(bag.buf), exit(EXIT_FAILURE);
+	}
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 
 	/* Check if the top stack has 0 */
 	if (last == 0)
-		dprintf(2, ZERO, line_number), rip();
+		dprintf(2, MOD_ZERO, line_number), exit(EXIT_FAILURE);
 
 	/* Complete the division operation */
 	total = secondlast % last;

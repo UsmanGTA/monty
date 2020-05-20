@@ -9,8 +9,6 @@
 #include <fcntl.h>
 #include <string.h>
 
-/*******************************************************/
-
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -27,8 +25,6 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-/*******************************************************/
-
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -43,28 +39,20 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/*******************************************************/
-
 /**
- * struct global_data - extern variables
- * that hold all necessary values to be
- * used across functions that may need it
- * @data: pointer storing data from main
- * @buf: pointer storing getline buf from main
+ * struct baggage_claims - extern variables
+ * @data: pointer tp data
+ * @buf: pointer to buf
  * @fp: pointer to file
  */
 
-typedef struct global_data
+typedef struct baggage_claims
 {
 	char *data;
 	char *buf;
 	FILE *fp;
-} global_data;
-
-extern global_data univ;
-global_data univ;
-
-/*******************************************************/
+} baggage;
+extern baggage bag;
 
 /* Mandatory Task Function Declarations / Prototypes */
 void pall_s(stack_t **stack, unsigned int line_number);
@@ -85,8 +73,6 @@ void pstr_s(stack_t **stack, unsigned int line_number);
 
 /* Helper Functions */
 void free_stack(stack_t *head);
-void rip(void);
-
-/*******************************************************/
 
 #endif
+
