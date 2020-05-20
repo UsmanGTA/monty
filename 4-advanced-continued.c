@@ -47,6 +47,6 @@ void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 			dprintf(1, "%c", temp->n);
 		else					/* Bad ASCII value should break it */
 			break;
+		dprintf(1, "\n");
 	}
-	dprintf(1, "\n");
 }
