@@ -38,7 +38,7 @@ void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 
 	/* If stack == NULL, print new line */
 	if (*stack == NULL)
-		dprintf(1, "\n"), exit(EXIT_SUCCESS);
+		dprintf(1, "\n");
 
 	/* If the stack isn't empty and has valid ASCII values, then print */
 	for (temp = *stack; temp != NULL && temp->n != 0; temp = temp->next)
