@@ -19,7 +19,7 @@ void pop_s(stack_t **stack, unsigned int line_number)
 
 	if (stack == NULL || *stack == NULL)
 	{
-		dprintf(1, "L%d: can't pop an empty stack\n", line_number);
+		dprintf(2, "L%d: can't pop an empty stack\n", line_number);
 		free(bag.buf), fclose(bag.fp), exit(EXIT_FAILURE);
 	}
 
