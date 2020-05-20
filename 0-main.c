@@ -1,14 +1,12 @@
 #include "monty.h"
-#include "opcodes.h"
 
 #define INTERPRETER argv[0] /* INTERPRETER */
 #define PROGRAM argv[1] /* PROGRAM */
 #define CMD args[0] /* push/pint/pall/nop */
 #define DATA args[1] /* Used for push */
-#define OPEN_F "Error: cannot open file %s\n"
-#define BADCMD_F "%d: unknown instruction %s\n"
-
-int line_count = 0;
+#define OPEN_F "Error: Can't open file %s\n"
+#define BADCMD_F "L%d: unknown instruction %s\n"
+#define DELIM " \t\n\r\a"
 
 /**
  * main - gets lines from bytecode file
@@ -18,55 +16,45 @@ int line_count = 0;
  */
 int main(int argc, char **argv)
 {
-	char *buf = NULL;
-	char *tokens, *args[64];
+	char *buf = NULL, *args[2];
 	size_t bufSize = 0;
-	int index, flag; /* Flag resets to 0 to check if any program was executed */
-	ssize_t bytes;
+	ssize_t index, flag = 0, bytes;
 	stack_t *head = NULL;
-	FILE *fp = fopen(PROGRAM, "r");
+	unsigned int line_num = 0;
+	FILE *fp;
+	instruction_t func[] = {
+		{"pall", pall_s}, {"pop", pop_s}, {"add", add_s}, {"nop", nop_s},
+		{"pint", pint_s}, {"swap", swap_s}, {"sub", sub_s}, {"mul", mul_s},
+		{"div", div_s}, {"mod", mod_s}, {"pchar", pchar_s}, {"pstr", pstr_s},
+		{"push", push_s},
+	};
 
+	/* FILE OPERATIONS */
 	if (argc != 2)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
+	if (access(PROGRAM, R_OK) == -1)
+		dprintf(2, OPEN_F, argv[1]), exit(EXIT_FAILURE);
+	fp = fopen(PROGRAM, "r");
 	if (fp == NULL)
-		dprintf(2, OPEN_F, argv[1]);
+		dprintf(2, "Error: malloc failed\n"), exit(EXIT_FAILURE);
+	univ.fp = fp; /* If all the above tests passed, assign fp */
 
-	while (1)
+	/* EXECUTION LOOP */
+	while ((bytes = getline(&buf, &bufSize, fp)) != -1)
 	{
-		bytes = getline(&buf, &bufSize, fp);
-		if (bytes >= 0)
-			buf[bytes - 1] = '\0';
-		else
-			break;
-
-		/* Generate argvs */
-		for (index = 0, tokens = strtok(buf, " "); tokens != NULL; index++)
-			args[index] = tokens, tokens = strtok(NULL, " ");
-		args[index] = NULL;
-
-		if (args[0][0] == '#')
-				continue;
-	
-		/* Search if function exists, then execute */
-		for (index = 0; opcodes[index].opcode != NULL; index++)
-		{
-			/* Check if function exists in struct */
-			if (strcmp(CMD, opcodes[index].opcode) == 0)
-				opcodes[index].f(&head, line_count), flag = 1;
-
-			/* Check if push exists and data has been given */
-			else if (strcmp(CMD, "push") == 0)
-			{
-				push_s(&head, line_count, DATA), flag = 1;
-				break;
-			}
-		}
+		buf[bytes - 1] = '\0', univ.buf = buf, line_num++;
+		args[0] = strtok(buf, DELIM);
+		if (args[0] == NULL || args[0][0] == '#')
+			continue;
+		args[1] = strtok(NULL, DELIM), univ.data = args[1];
+		for (index = 0; index < 13; index++)
+			if (strcmp(CMD, func[index].opcode) == 0)
+				func[index].f(&head, line_num), flag = 1;
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
-			dprintf(2, BADCMD_F, line_count, CMD), exit(EXIT_FAILURE);
-		flag = 0, line_count++; /* Reset flag to check next loop */
+			dprintf(2, BADCMD_F, line_num, CMD), free_stack(head), rip();
+		flag = 0; /* Reset flag to check next loop */
 	}
-	/* CLEANUP */
-	free(buf), free_stack(head), fclose(fp);
+	free_stack(head), rip();
 	return (0);
 }
 
