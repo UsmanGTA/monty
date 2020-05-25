@@ -1,8 +1,9 @@
 #include "monty.h"
-#define PCHAR_F "L%d: can't pchar, stack empty\n"
-#define PCHAR_ASCII_F "L%d: can't pchar, value out of range\n"
-#define ASCIIMAX 127
-#define ASCIIMIN 0
+
+#define PCHAR_F 		"L%d: can't pchar, stack empty\n"
+#define PCHAR_ASCII_F 	"L%d: can't pchar, value out of range\n"
+#define ASCIIMAX 		127
+#define ASCIIMIN 		0
 
 /**
  * pchar_s - prints the value of the head node

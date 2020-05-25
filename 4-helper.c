@@ -22,7 +22,10 @@ void free_stack(stack_t *head)
  * the struct, with an effective
  * exit statement included following
  * successful operations.
- * @stack
+ * @error: pulls in the character
+ * to determine whether EXIT_FAILURE,
+ * if error pulls in 'f' then exit_f
+ * else, success
  */
 void rip(char error)
 {

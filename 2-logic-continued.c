@@ -12,7 +12,6 @@
  * @line_number: line count
  * Return: Always void
  */
-
 void pop_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = *stack;

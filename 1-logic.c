@@ -1,7 +1,7 @@
 #include "monty.h"
 
-#define MALLOC_F "Error: malloc failed\n"
-#define PUSH_F "L%d: usage: push integer\n"
+#define MALLOC_F 	"Error: malloc failed\n"
+#define PUSH_F 		"L%d: usage: push integer\n"
 
 /**
  * push_s - pushes an integer to the stack
