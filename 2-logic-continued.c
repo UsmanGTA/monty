@@ -1,9 +1,10 @@
 #include "monty.h"
 
-#define PINT_F "L%d: can't pint, stack empty\n"
-#define POP_F "L%d: can't pop an empty stack\n"
-#define CALC_F "L%d: can't %s, stack too short\n"
-#define ZERO "L%d: division by zero\n"
+#define PINT_F 	"L%d: can't pint, stack empty\n"
+#define POP_F 	"L%d: can't pop an empty stack\n"
+#define SWAP_F	"L%d: can't swap, stack too short\n"
+#define CALC_F 	"L%d: can't %s, stack too short\n"
+#define ZERO 	"L%d: division by zero\n"
 
 /**
  * pop_s - pops from top of stack
@@ -17,7 +18,7 @@ void pop_s(stack_t **stack, unsigned int line_number)
 	stack_t *temp = *stack;
 
 	if (stack == NULL || *stack == NULL)
-		dprintf(2, POP_F, line_number), rip();
+		dprintf(2, POP_F, line_number), rip('f');
 
 	/* Move head to the next node while old head's in temp */
 	*stack = temp->next;
@@ -44,14 +45,12 @@ void swap_s(stack_t **stack, unsigned int line_number)
 		/* Pull the values from the two nodes */
 		firstnodedata = temp->n;
 		secondnodedata = temp->next->n;
+
 		/* Then swap them */
 		temp->n = secondnodedata, temp->next->n = firstnodedata;
 	}
 	else
-	{
-		dprintf(2, "L%d: can't swap, stack too short\n", line_number);
-		rip();
-	}
+		dprintf(2, SWAP_F, line_number), rip('f');
 }
 
 /**
@@ -63,7 +62,7 @@ void swap_s(stack_t **stack, unsigned int line_number)
 void pint_s(stack_t **stack, unsigned int line_number)
 {
 	if (*stack == NULL)
-		dprintf(2, PINT_F, line_number), rip();
+		dprintf(2, PINT_F, line_number), rip('f');
 	else
 		dprintf(1, "%d\n", (*stack)->n);
 }
@@ -86,7 +85,7 @@ void calc_s(stack_t **stack, unsigned int line_number)
 
 	/* Check if we have two nodes to add */
 	if (stack == NULL || *stack == NULL || ncount < 2)
-		dprintf(2, CALC_F, line_number, univ.funcstr), rip();
+		dprintf(2, CALC_F, line_number, univ.funcstr), rip('f');
 
 	/* Pull the values from the last two nodes, then add */
 	secondlast = (*stack)->next->n, last = (*stack)->n;
@@ -95,7 +94,7 @@ void calc_s(stack_t **stack, unsigned int line_number)
 	{
 		/* Check if the top stack has 0 */
 		if (last == 0)
-			dprintf(2, ZERO, line_number), rip();
+			dprintf(2, ZERO, line_number), rip('f');
 	}
 
 	if (strcmp("div", univ.funcstr) == 0)

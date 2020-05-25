@@ -7,6 +7,8 @@
 #define BADCMD_F 	"L%d: unknown instruction %s\n"
 #define DELIM 		" \t\n\r\a"
 
+global_data univ =  {NULL, NULL, NULL, NULL, NULL};
+
 /**
  * main - gets lines from bytecode file
  * @argc: number of arguments
@@ -18,14 +20,12 @@ int main(int argc, char **argv)
 	char *buf = NULL, *args[2];
 	size_t bufSize = 0;
 	ssize_t index, flag = 0, bytes;
-	stack_t *head = NULL;
 	unsigned int line_num = 0;
 	FILE *fp;
 	instruction_t func[] = {
-		{"pall", pall_s}, {"pop", pop_s}, {"add", calc_s}, {"nop", nop_s},
-		{"pint", pint_s}, {"swap", swap_s}, {"sub", calc_s}, {"mul", calc_s},
-		{"div", calc_s}, {"mod", calc_s}, {"pchar", pchar_s}, {"pstr", pstr_s},
-		{"push", push_s},
+		{"pall", pall_s}, {"pop", pop_s}, {"pint", pint_s}, {"swap", swap_s},
+		{"push", push_s}, {"nop", nop_s}, {"add", calc_s}, {"sub", calc_s}, 
+		{"mul", calc_s}, {"div", calc_s}, {"mod", calc_s}, {"pchar", pchar_s}, {"pstr", pstr_s},
 	};
 
 	/* FILE OPERATIONS */
@@ -48,11 +48,11 @@ int main(int argc, char **argv)
 		DATA = strtok(NULL, DELIM), univ.data = DATA;
 		for (index = 0; index < 13; index++)
 			if (strcmp(OPCODE, func[index].opcode) == 0)
-				func[index].f(&head, line_num), univ.funcstr = OPCODE, flag = 1;
+				func[index].f(&univ.stack, line_num), univ.funcstr = OPCODE, flag = 1;
 		if (flag == 0) /* Check if flag flipped, if not, cmd not found */
-			dprintf(2, BADCMD_F, line_num, OPCODE), rip();
+			dprintf(2, BADCMD_F, line_num, OPCODE), rip('f');
 		flag = 0; /* Reset flag to check next loop */
 	}
-	rip();
+	rip('s');
 	return (0);
 }

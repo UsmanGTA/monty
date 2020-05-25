@@ -14,7 +14,7 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 {
 	/* Check if stack's null */
 	if (*stack == NULL)
-		dprintf(2, PCHAR_F, line_number), rip();
+		dprintf(2, PCHAR_F, line_number), rip('f');
 
 	/* Extract the value from the stack & print if its an ASCII */
 	if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
@@ -22,7 +22,7 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 
 	/* If not an ASCII, fail */
 	else
-		dprintf(2, PCHAR_ASCII_F, line_number);
+		dprintf(2, PCHAR_ASCII_F, line_number), rip('f');
 }
 
 /**
@@ -31,13 +31,13 @@ void pchar_s(stack_t **stack, unsigned int line_number)
  * @line_number: line count unused
  * Return: Always void
  */
-void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
+void pstr_s(stack_t **stack, __attribute__((unused))unsigned int line_number)
 {
 	stack_t *temp;
 
 	/* If stack == NULL, print new line */
 	if (*stack == NULL)
-		dprintf(1, "\n"), rip();
+		dprintf(1, "\n"), rip('f');
 
 	/* If the stack isn't empty and has valid ASCII values, then print */
 	for (temp = *stack; temp != NULL || temp->n != 0; temp = temp->next)

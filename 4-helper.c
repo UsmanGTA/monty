@@ -24,17 +24,14 @@ void free_stack(stack_t *head)
  * successful operations.
  * @stack
  */
-void rip(void)
+void rip(char error)
 {
-	printf("Boogeyman entered the rip func\n");
 	if (univ.buf != NULL)
 		free(univ.buf);
 	if (univ.fp != NULL)
 		fclose(univ.fp);
 	if (univ.stack != NULL)
-	{
-		printf("Freeing the stack\n");
 		free_stack(univ.stack);
-	}
-	exit(EXIT_FAILURE);
+	if (error == 'f')
+		exit(EXIT_FAILURE);
 }

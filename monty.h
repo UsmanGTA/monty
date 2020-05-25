@@ -64,7 +64,6 @@ typedef struct global_data
 } global_data;
 
 extern global_data univ;
-global_data univ;
 
 /*******************************************************/
 
@@ -89,7 +88,7 @@ void calc_s(stack_t **stack, unsigned int line_number);
 
 /* Helper Functions */
 void free_stack(stack_t *head);
-void rip(void);
+void rip(char error);
 
 /*******************************************************/
 

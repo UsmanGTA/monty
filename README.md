@@ -1,5 +1,5 @@
-# 0x19. C - Stacks, Queues - LIFO, FIFO
-
+# MONTY - C - Stacks, Queues - LIFO, FIFO
+![Header Image](https://www.geeksultd.com/wp-content/uploads/2020/05/Monty-Stacks-Queues.jpg)
 ## Synopsis
 This project is a part of a Holberton Curriculum building upon previous concepts of stacks, queues and linked lists.
 
