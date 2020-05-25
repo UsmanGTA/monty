@@ -1,9 +1,7 @@
 #include "monty.h"
 
-#define CANTADD "L%d: can't add, stack too short\n"
 #define MALLOC_F "Error: malloc failed\n"
 #define PUSH_F "L%d: usage: push integer\n"
-#define FREESTACK (free_stack(stack_t *stack))
 
 /**
  * push_s - pushes an integer to the stack
@@ -24,16 +22,16 @@ void push_s(stack_t **stack, unsigned int line_number)
 
 	/* Set the value of n based off the following situations */
 	if (univ.data == NULL)
-		dprintf(2, PUSH_F, line_number), free(new), free_stack(*stack), rip();
+		dprintf(2, PUSH_F, line_number), free(new), rip();
 	else if (strcmp(univ.data, "0") == 0)
 		n = 0;
 	else
 	{
 		for (i = 0; univ.data[i] != '\0'; i++)
-			if ((univ.data[i] >= '0' && univ.data[i] <= '9') || univ.data[0] == '-')
+			if ((univ.data[i] >= '0' && univ.data[i] <= '9') || univ.data[i] == '-')
 				continue;
 			else
-				dprintf(2, PUSH_F, line_number), free(new), free_stack(*stack), rip();
+				dprintf(2, PUSH_F, line_number), free(new), rip();
 		n = atoi(univ.data);
 	}
 
@@ -49,6 +47,7 @@ void push_s(stack_t **stack, unsigned int line_number)
 		new->next = temp; /* Else our new node should point to head */
 		temp->prev = new; /*Point the next node->prev to the new head node */
 		*stack = new; /* Our new node is now the head */
+		univ.stack = new; /* Update the global struct with the new stack */
 	}
 }
 

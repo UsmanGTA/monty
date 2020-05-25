@@ -26,12 +26,15 @@ void free_stack(stack_t *head)
  */
 void rip(void)
 {
-	if (univ.buf || univ.fp)
+	printf("Boogeyman entered the rip func\n");
+	if (univ.buf != NULL)
+		free(univ.buf);
+	if (univ.fp != NULL)
+		fclose(univ.fp);
+	if (univ.stack != NULL)
 	{
-		if (univ.buf != NULL)
-			free(univ.buf);
-		if (univ.fp != NULL)
-			fclose(univ.fp);
+		printf("Freeing the stack\n");
+		free_stack(univ.stack);
 	}
 	exit(EXIT_FAILURE);
 }

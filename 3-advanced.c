@@ -1,146 +1,51 @@
 #include "monty.h"
-
-#define SUB_F "L%d: can't sub, stack too short\n"
-#define DIV_F "L%d: can't div, stack too short\n"
-#define ZERO "L%d: division by zero\n"
-#define MUL_F "L%d: can't mul, stack too short\n"
-#define MOD_F "L%d: can't mod, stack too short\n"
+#define PCHAR_F "L%d: can't pchar, stack empty\n"
+#define PCHAR_ASCII_F "L%d: can't pchar, value out of range\n"
+#define ASCIIMAX 127
+#define ASCIIMIN 0
 
 /**
- * sub_s - subtracts the very last two elements
- * on the stack, and then returns
- * @line_number: line_number
+ * pchar_s - prints the value of the head node
  * @stack: doubly linked list
- * Return: Always void
- */
-void sub_s(stack_t **stack, unsigned int line_number)
-{
-	stack_t *temp = *stack;
-	int secondlast, last;
-	int total;
-	int ncount;
-
-	for (ncount = 0; temp != NULL; temp = temp->next, ncount++)
-		;
-
-	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || ncount < 2)
-		dprintf(2, SUB_F, line_number), free(*stack), rip();
-
-	/* Pull the values from the last two nodes, then add */
-	secondlast = (*stack)->next->n, last = (*stack)->n;
-
-	/* Complete the subtraction operation */
-	total = secondlast - last;
-
-	/* Free the node */
-	temp = (*stack)->next; 
-	pop_s(stack, line_number);
-	(*stack)->n = total;
-}
-
-/**
- * div_s -  divides all the very last two elements added
- * to the stack
- * @line_number: line_number for errors
- * @stack: doubly linked list
- */
-void div_s(stack_t **stack, unsigned int line_number)
-{
-	stack_t *temp = *stack;
-	int secondlast, last;
-	int total;
-	int ncount;
-
-	for (ncount = 0; temp != NULL; temp = temp->next, ncount++)
-		;
-
-	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || ncount < 2)
-		dprintf(2, DIV_F, line_number), free_stack(*stack), rip();
-
-	/* Pull the values from the last two nodes, then add */
-	secondlast = (*stack)->next->n, last = (*stack)->n;
-
-	/* Check if the top stack has 0 */
-	if (last == 0)
-		dprintf(2, ZERO, line_number), rip();
-
-	/* Complete the division operation */
-	total = secondlast / last;
-
-	/* Free the node */
-	temp = (*stack)->next;
-	pop_s(stack, line_number);
-	(*stack)->n = total;
-}
-
-/**
- * mul_s - multiplies the very last two nodes
  * @line_number: line number
- * @stack: doubly linked list
  * Return: Always void
  */
-void mul_s(stack_t **stack, unsigned int line_number)
+void pchar_s(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp = *stack;
-	int secondlast, last;
-	int total;
-	int nodecount;
+	/* Check if stack's null */
+	if (*stack == NULL)
+		dprintf(2, PCHAR_F, line_number), rip();
 
-	for (temp = *stack, nodecount = 0; temp != NULL;
-	     temp = temp->next, nodecount++)
-		;
+	/* Extract the value from the stack & print if its an ASCII */
+	if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
+		dprintf(1, "%c\n", (*stack)->n);
 
-	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || nodecount < 2)
-		dprintf(2, MUL_F, line_number), free_stack(*stack), rip();
-
-	/* Pull the values from the last two nodes, then add */
-	secondlast = (*stack)->next->n, last = (*stack)->n;
-
-	/* Complete the multiplication operation */
-	total = secondlast * last;
-
-	/* Free the node */
-	temp = (*stack)->next;
-	pop_s(stack, line_number);
-	(*stack)->n = total;
+	/* If not an ASCII, fail */
+	else
+		dprintf(2, PCHAR_ASCII_F, line_number);
 }
 
 /**
- * mod_s -  divides all the very last two elements added
- * to the stack
- * @line_number: line_number for errors
- * @stack: doubly linked list
+ * pstr_s - prints string
+ * @stack: double pointer to stack
+ * @line_number: line count unused
+ * Return: Always void
  */
-void mod_s(stack_t **stack, unsigned int line_number)
+void pstr_s(stack_t **stack, __attribute((unused))unsigned int line_number)
 {
-	stack_t *temp = *stack;
-	int secondlast, last;
-	int total;
-	int nodecount;
+	stack_t *temp;
 
-	for (temp = *stack, nodecount = 0; temp != NULL;
-	     temp = temp->next, nodecount++)
-		;
+	/* If stack == NULL, print new line */
+	if (*stack == NULL)
+		dprintf(1, "\n"), rip();
 
-	/* Check if we have two nodes to add */
-	if (stack == NULL || *stack == NULL || nodecount < 2)
-		dprintf(2, MOD_F, line_number), free_stack(*stack), rip();
-
-	/* Pull the values from the last two nodes, then add */
-	secondlast = (*stack)->next->n, last = (*stack)->n;
-
-	/* Check if the top stack has 0 */
-	if (last == 0)
-		dprintf(2, ZERO, line_number), rip();
-
-	/* Complete the division operation */
-	total = secondlast % last;
-
-	/* Free the node */
-	temp = (*stack)->next;
-	      pop_s(stack, line_number);
-	      (*stack)->n = total;
+	/* If the stack isn't empty and has valid ASCII values, then print */
+	for (temp = *stack; temp != NULL || temp->n != 0; temp = temp->next)
+	{
+		if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
+			dprintf(1, "%c", temp->n);
+		else					/* Bad ASCII value should break it */
+			break;
+	}
+	dprintf(1, "\n");
 }

@@ -59,9 +59,12 @@ typedef struct global_data
 	char *data;
 	char *buf;
 	FILE *fp;
+	stack_t *stack;
+	char *funcstr;
 } global_data;
 
 extern global_data univ;
+global_data univ;
 
 /*******************************************************/
 
@@ -81,6 +84,8 @@ void div_s(stack_t **stack, unsigned int line_number);
 void mod_s(stack_t **stack, unsigned int line_number);
 void pchar_s(stack_t **stack, unsigned int line_number);
 void pstr_s(stack_t **stack, unsigned int line_number);
+
+void calc_s(stack_t **stack, unsigned int line_number);
 
 /* Helper Functions */
 void free_stack(stack_t *head);
