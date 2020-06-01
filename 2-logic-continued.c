@@ -3,8 +3,8 @@
 #define PINT_F 	"L%d: can't pint, stack empty\n"
 #define POP_F 	"L%d: can't pop an empty stack\n"
 #define SWAP_F	"L%d: can't swap, stack too short\n"
-#define CALC_F 	"L%d: can't %s, stack too short\n"
 #define ZERO 	"L%d: division by zero\n"
+#define CALC_F 	"L%d: can't %s, stack too short\n"
 
 /**
  * pop_s - pops from top of stack
@@ -75,9 +75,7 @@ void pint_s(stack_t **stack, unsigned int line_number)
 void calc_s(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = *stack;
-	int secondlast, last;
-	int total;
-	int ncount;
+	int secondlast, last, total, ncount;
 
 	for (ncount = 0; temp != NULL; temp = temp->next, ncount++)
 		;
@@ -90,11 +88,8 @@ void calc_s(stack_t **stack, unsigned int line_number)
 	secondlast = (*stack)->next->n, last = (*stack)->n;
 
 	if (strcmp("div", univ.funcstr) == 0 || strcmp("mod", univ.funcstr) == 0)
-	{
-		/* Check if the top stack has 0 */
 		if (last == 0)
 			dprintf(2, ZERO, line_number), rip('f');
-	}
 
 	if (strcmp("div", univ.funcstr) == 0)
 		total = secondlast / last;

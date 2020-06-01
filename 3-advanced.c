@@ -17,11 +17,8 @@ void pchar_s(stack_t **stack, unsigned int line_number)
 	if (*stack == NULL)
 		dprintf(2, PCHAR_F, line_number), rip('f');
 
-	/* Extract the value from the stack & print if its an ASCII */
 	if ((*stack)->n >= ASCIIMIN && (*stack)->n <= ASCIIMAX)
 		dprintf(1, "%c\n", (*stack)->n);
-
-	/* If not an ASCII, fail */
 	else
 		dprintf(2, PCHAR_ASCII_F, line_number), rip('f');
 }
@@ -36,7 +33,6 @@ void pstr_s(stack_t **stack, __attribute__((unused))unsigned int line_number)
 {
 	stack_t *temp;
 
-	/* If stack == NULL, print new line */
 	if (*stack == NULL)
 		dprintf(1, "\n"), rip('f');
 

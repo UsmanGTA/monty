@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 {
 	char *buf = NULL, *args[2];
 	size_t bufSize = 0;
-	ssize_t index, flag = 0, bytes;
+	ssize_t index, flag, bytes;
 	unsigned int line_num = 0;
 	FILE *fp;
 	instruction_t func[] = {
@@ -33,8 +33,7 @@ int main(int argc, char **argv)
 		dprintf(2, "USAGE: monty file\n"), exit(EXIT_FAILURE);
 	if (access(LOGICFILE, R_OK) == -1)
 		dprintf(2, OPEN_F, argv[1]), exit(EXIT_FAILURE);
-	fp = fopen(LOGICFILE, "r");
-	if (fp == NULL)
+	if((fp = fopen(LOGICFILE, "r")) == 1);
 		dprintf(2, "Error: malloc failed\n"), exit(EXIT_FAILURE);
 	univ.fp = fp; /* If all the above tests passed, assign fp */
 
